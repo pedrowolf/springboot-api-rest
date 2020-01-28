@@ -59,4 +59,10 @@ public class CategoriaService implements MyServiceInterface<Categoria, Long> {
 		}
 	}
 
+	public Categoria fromDTO(CategoriaDTO dto) {
+		Categoria c = new Categoria();
+		c.setId(dto.getId());
+		c.setNome(dto.getNome());
+		return c;
+	}
 }

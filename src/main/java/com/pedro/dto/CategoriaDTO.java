@@ -2,6 +2,10 @@ package com.pedro.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.pedro.domain.Categoria;
 
 public class CategoriaDTO implements Serializable {
@@ -10,6 +14,8 @@ public class CategoriaDTO implements Serializable {
 
 	private Long id;
 
+	@NotEmpty(message = "Preenchimento obrigatório")
+	@Length(min = 5, max = 80, message = "O Campo deve ter entre {min} e {max} caracteres")
 	private String nome;
 
 	public CategoriaDTO() {
