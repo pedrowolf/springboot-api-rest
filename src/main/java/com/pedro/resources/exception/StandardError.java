@@ -12,6 +12,7 @@ public class StandardError implements Serializable {
 
 	private Long timestamp;
 
+
 	public Integer getStatus() {
 		return status;
 	}
