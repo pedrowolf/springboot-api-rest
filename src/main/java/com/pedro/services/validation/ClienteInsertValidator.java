@@ -21,24 +21,45 @@ public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert
 		// TODO Auto-generated method stub
 		List<FieldMessage> list = new ArrayList<FieldMessage>();
 
-		if (value.getTipo().equals(TipoCliente.PF)) {
-			if (!isCPF(value.getCpf())) {
-				list.add(new FieldMessage("cpf", "CPF Inválido"));
-			}
-		}else if(value.getTipo().equals(TipoCliente.PJ)) {
-			if(!isCnpjValido(value.getCpf())) {
-				list.add(new FieldMessage("cnpj", "CNPJ Inválido"));
+		if (value.getTipo() == null) {
+			list.add(new FieldMessage("tipo", "Tipo não pode ser nulo"));
+		}
+
+		if (value.getCpf() == null || value.getCpf().isEmpty()) {
+			list.add(new FieldMessage("cpf", "CPF não pode ser nulo ou vazio"));
+		}
+
+		if (list.isEmpty()) {
+			if (value.getTipo().equals(TipoCliente.PF.getCod())) {
+				if (!isCPF(value.getCpf())) {
+					list.add(new FieldMessage("cpf", "CPF Inválido"));
+				}
+			} else if (value.getTipo().equals(TipoCliente.PJ.getCod())) {
+				if (!isCnpjValido(value.getCpf())) {
+					list.add(new FieldMessage("cnpj", "CNPJ Inválido"));
+				}
 			}
 		}
 
-		//context.disableDefaultConstraintViolation();
-		list.stream().map(obj -> context.buildConstraintViolationWithTemplate(obj.getMessage())
-				.addPropertyNode(obj.getFieldName()).addConstraintViolation());
+		for (FieldMessage m : list) {
+			context.disableDefaultConstraintViolation();
+			context.buildConstraintViolationWithTemplate(m.getMessage()).addPropertyNode(m.getFieldName())
+					.addConstraintViolation();
+		}
+
+		/*
+		 * context.disableDefaultConstraintViolation(); list.stream().map(obj ->
+		 * context.buildConstraintViolationWithTemplate(obj.getMessage())
+		 * .addPropertyNode(obj.getFieldName()).addConstraintViolation());
+		 */
 
 		return list.isEmpty();
 	};
+	
 
 	public static boolean isCPF(String CPF) {
+		CPF = CPF.replace(".", "");
+		CPF = CPF.replace("-", "");
 		// considera-se erro CPF's formados por uma sequencia de numeros iguais
 		if (CPF.equals("00000000000") || CPF.equals("11111111111") || CPF.equals("22222222222")
 				|| CPF.equals("33333333333") || CPF.equals("44444444444") || CPF.equals("55555555555")

@@ -10,17 +10,18 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.pedro.domain.Cliente;
+import com.pedro.domain.TipoCliente;
 import com.pedro.dto.ClienteDTO;
 import com.pedro.dto.ClienteNewDTO;
 import com.pedro.exceptions.ObjectNotFoundException;
 import com.pedro.repositories.ClienteRepository;
 
 @Service
-public class ClienteService implements MyServiceInterface<Cliente, Long>{
+public class ClienteService implements MyServiceInterface<Cliente, Long> {
 
 	@Autowired
 	private ClienteRepository repo;
-	
+
 	@Override
 	public Cliente saveOrUpdate(Cliente entidade) {
 		// TODO Auto-generated method stub
@@ -44,13 +45,13 @@ public class ClienteService implements MyServiceInterface<Cliente, Long>{
 	@Override
 	public Cliente loadById(Long id) {
 		// TODO Auto-generated method stub
-		return repo.findById(id).orElseThrow(
-				() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo: Cliente"));
+		return repo.findById(id)
+				.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo: Cliente"));
 	}
 
 	@Override
 	public void deleteById(Long id) {
-			repo.deleteById(id);
+		repo.deleteById(id);
 	}
 
 	public Cliente fromDTO(ClienteDTO dto) {
@@ -70,7 +71,7 @@ public class ClienteService implements MyServiceInterface<Cliente, Long>{
 		c.setEstado(dto.getEstado());
 		c.setFone(dto.getFone());
 		c.setLogradouro(dto.getLogradouro());
-		c.setTipo(dto.getTipo());
+		c.setTipo(TipoCliente.toEnum(dto.getTipo()));
 		return c;
 	}
 }

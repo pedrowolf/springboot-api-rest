@@ -35,8 +35,12 @@ public class ClienteNewDTO {
 	@NotEmpty(message = "Campo telefone é obrigatório")
 	private String fone;
 	
-	@NotNull(message = "Campo nome é obrigatório")
-	private TipoCliente tipo;
+	@NotNull(message = "Campo tipo é obrigatório")
+	private Integer tipo;
+	
+	public ClienteNewDTO() {
+		
+	}
 
 	public String getNome() {
 		return nome;
@@ -102,12 +106,12 @@ public class ClienteNewDTO {
 		this.fone = fone;
 	}
 
-	public TipoCliente getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(TipoCliente tipo) {
+	public void setTipo(Integer tipo) {
 		this.tipo = tipo;
+	}
+	
+	public Integer getTipo() {
+		return tipo;
 	}
 	
 	

@@ -2,23 +2,23 @@ package com.pedro.domain;
 
 public enum TipoCliente {
 
-	PF("PF", "Pessoa Física"),
-	PJ("PJ", "Pessoa Jurídica");
+	PF(1, "Pessoa Física"),
+	PJ(2, "Pessoa Jurídica");
 	
-	private String def;
+	private Integer cod;
 	private String descricao;
 	
-	TipoCliente(String def, String descricao) {
-		this.def = def;
+	TipoCliente(Integer i, String descricao) {
+		this.cod = i;
 		this.descricao = descricao;
 	}
 
-	public String getDef() {
-		return def;
+	public Integer getCod() {
+		return cod;
 	}
 
-	public void setDef(String def) {
-		this.def = def;
+	public void setCod(Integer cod) {
+		this.cod = cod;
 	}
 
 	public String getDescricao() {
@@ -27,5 +27,20 @@ public enum TipoCliente {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+	
+public static TipoCliente toEnum(Integer cod) {
+		
+		if (cod == null) {
+			return null;
+		}
+		
+		for (TipoCliente x : TipoCliente.values()) {
+			if (cod.equals(x.getCod())) {
+				return x;
+			}
+		}
+		
+		throw new IllegalArgumentException("Id inválido: " + cod);
 	}
 }
